@@ -1,5 +1,5 @@
 ---
-title: Kenapa Astro Adalah Pilihan Terbaik untuk Landing Page di 2026
+title: Kenapa Astro Adalah Pilihan Terbaik untuk Landing Page di 2028
 slug: ''
 description: Astro menghasilkan landing page yang jauh lebih cepat dibanding framework JavaScript konvensional. Ini alasan teknis di baliknya.
 featuredImage: /images/uploads/Copilot_20260724_114015.png
@@ -11,6 +11,7 @@ tags:
   - performance
   - web-development
 author: Wonderweb Team
+authorAvatar: ''
 publishedDate: 2026-06-02
 updatedDate: 2026-07-10
 readingTime: 6
