@@ -3,8 +3,9 @@
 
 backend:
   name: github
-  repo: wonderweb/wonderweb-blog # ganti dengan repo GitHub kamu
-  branch: main
+  repo: ilyasrahmansalim/wonderweb-blog # Contoh: ilyas/wonderweb-blog
+  branch: main # Sesuaikan dengan nama branch utama repo kamu (main/master)
+  base_url: https://sveltia-cms-auth.sveltia.dev
 
 # Aktifkan ini saat development lokal (npx sveltia-cms-proxy-server)
 local_backend: true
