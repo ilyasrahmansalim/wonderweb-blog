@@ -1,0 +1,24 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+}
+const { eyebrow = 'Wonderweb Blog', title, description } = Astro.props;
+---
+
+<section class="container-wonder pt-16 pb-10 sm:pt-24 sm:pb-14">
+  <div class="animate-fade-up max-w-3xl">
+    <span class="badge badge-outline border-ocean/30 text-ocean">{eyebrow}</span>
+    <h1 class="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-onyx sm:text-5xl lg:text-6xl">
+      {title}
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-onyx/65">
+      {description}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/blog" class="btn btn-primary rounded-btn">Jelajahi Artikel</a>
+      <a href="/about" class="btn btn-ghost rounded-btn border border-onyx/10">Tentang Wonderweb</a>
+    </div>
+  </div>
+</section>

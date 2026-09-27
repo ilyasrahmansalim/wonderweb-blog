@@ -1,0 +1,59 @@
+---
+export interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  featuredImage: string;
+  featuredImageAlt?: string;
+  category: string;
+  publishedDate: Date;
+  readingTime?: number;
+  featured?: boolean;
+}
+
+const {
+  slug,
+  title,
+  description,
+  featuredImage,
+  featuredImageAlt = '',
+  category,
+  publishedDate,
+  readingTime,
+  featured = false,
+} = Astro.props;
+
+const dateLabel = publishedDate.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<a
+  href={`/${slug}`}
+  class={`card group overflow-hidden border border-onyx/5 bg-base-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+    featured ? 'sm:col-span-2 sm:grid sm:grid-cols-2 sm:items-stretch' : ''
+  }`}
+>
+  <figure class={`overflow-hidden ${featured ? 'h-56 sm:h-full' : 'h-48'}`}>
+    <img
+      src={featuredImage}
+      alt={featuredImageAlt || title}
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  </figure>
+  <div class="card-body p-5">
+    <div class="flex items-center gap-2 text-xs font-semibold text-ocean">
+      <span class="badge badge-sm border-none bg-sky/10 text-ocean">{category}</span>
+      {readingTime && <span class="text-onyx/40">{readingTime} menit baca</span>}
+    </div>
+    <h3 class={`card-title mt-1 leading-snug text-onyx ${featured ? 'text-2xl' : 'text-lg'}`}>
+      {title}
+    </h3>
+    <p class="line-clamp-2 text-sm text-onyx/60">{description}</p>
+    <p class="mt-2 text-xs text-onyx/40">{dateLabel}</p>
+  </div>
+</a>

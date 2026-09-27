@@ -1,0 +1,67 @@
+---
+export interface Props {
+  categories: string[];
+  tags: string[];
+}
+const { categories, tags } = Astro.props;
+---
+
+<div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center" id="blog-search">
+  <label class="input input-bordered flex flex-1 items-center gap-2 rounded-btn bg-base-100">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Cari artikel..."
+      class="grow bg-transparent text-sm outline-none"
+      aria-label="Cari artikel"
+    />
+  </label>
+
+  <select id="category-filter" class="select select-bordered rounded-btn text-sm">
+    <option value="">Semua Kategori</option>
+    {categories.map((cat) => <option value={cat}>{cat}</option>)}
+  </select>
+
+  <select id="tag-filter" class="select select-bordered rounded-btn text-sm">
+    <option value="">Semua Tag</option>
+    {tags.map((tag) => <option value={tag}>{tag}</option>)}
+  </select>
+</div>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+  const tagFilter = document.getElementById('tag-filter') as HTMLSelectElement;
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-post-card]'));
+  const emptyState = document.getElementById('blog-empty-state');
+
+  function applyFilters() {
+    const query = searchInput?.value.trim().toLowerCase() ?? '';
+    const category = categoryFilter?.value ?? '';
+    const tag = tagFilter?.value ?? '';
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const title = card.dataset.title ?? '';
+      const cardCategory = card.dataset.category ?? '';
+      const cardTags = (card.dataset.tags ?? '').split(',');
+
+      const matchesQuery = title.includes(query);
+      const matchesCategory = !category || cardCategory === category;
+      const matchesTag = !tag || cardTags.includes(tag);
+      const isVisible = matchesQuery && matchesCategory && matchesTag;
+
+      card.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? '' : 'none';
+    }
+  }
+
+  searchInput?.addEventListener('input', applyFilters);
+  categoryFilter?.addEventListener('change', applyFilters);
+  tagFilter?.addEventListener('change', applyFilters);
+</script>

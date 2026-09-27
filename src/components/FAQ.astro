@@ -1,0 +1,24 @@
+---
+export interface Props {
+  items: { question: string; answer: string }[];
+  title?: string;
+}
+const { items, title = 'Pertanyaan yang Sering Diajukan' } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="my-12" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="mb-4 text-2xl font-semibold text-onyx">{title}</h2>
+    <div class="join join-vertical w-full">
+      {items.map((item, i) => (
+        <div class="collapse join-item collapse-arrow border border-onyx/5 bg-base-100">
+          <input type="radio" name={`faq-accordion`} defaultChecked={i === 0} />
+          <div class="collapse-title text-base font-semibold text-onyx">{item.question}</div>
+          <div class="collapse-content text-sm text-onyx/70">
+            <p>{item.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}

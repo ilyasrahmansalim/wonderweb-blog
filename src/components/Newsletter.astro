@@ -1,0 +1,44 @@
+---
+export interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<section class={compact ? 'my-12' : 'py-16 sm:py-20'}>
+  <div class={compact ? '' : 'container-wonder'}>
+    <div class="glass rounded-box flex flex-col items-center gap-5 border border-onyx/5 px-6 py-10 text-center sm:px-12">
+      <span class="badge badge-outline border-ocean/30 text-ocean">Newsletter</span>
+      <h2 class="max-w-xl text-2xl font-semibold text-onyx sm:text-3xl">
+        Insight web development, dikirim ke inbox kamu
+      </h2>
+      <p class="max-w-lg text-sm text-onyx/60">
+        Tips Astro, Tailwind, SEO, dan strategi frontend praktis. Tanpa spam, cukup satu email tiap dua minggu.
+      </p>
+      <form class="flex w-full max-w-md flex-col gap-2 sm:flex-row" data-newsletter-form>
+        <input
+          type="email"
+          required
+          placeholder="Alamat email kamu"
+          class="input input-bordered flex-1 rounded-btn bg-base-100"
+          aria-label="Alamat email"
+        />
+        <button type="submit" class="btn btn-primary rounded-btn">Berlangganan</button>
+      </form>
+      <p class="text-xs text-onyx/40" data-newsletter-message aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = form.parentElement?.querySelector<HTMLElement>('[data-newsletter-message]');
+      if (message) {
+        message.textContent = 'Terima kasih! Cek inbox kamu untuk konfirmasi.';
+      }
+      form.reset();
+    });
+  });
+</script>

@@ -1,0 +1,33 @@
+---
+import PostCard from './PostCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="container-wonder py-10 sm:py-14">
+    <div class="mb-8 flex items-end justify-between">
+      <h2 class="text-2xl font-semibold text-onyx sm:text-3xl">Artikel Pilihan</h2>
+      <a href="/blog" class="link-underline text-sm font-semibold text-ocean">Lihat semua &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {posts.map((post, i) => (
+        <PostCard
+          slug={post.slug}
+          title={post.data.title}
+          description={post.data.description}
+          featuredImage={post.data.featuredImage}
+          featuredImageAlt={post.data.featuredImageAlt}
+          category={post.data.category}
+          publishedDate={post.data.publishedDate}
+          readingTime={post.data.readingTime}
+          featured={i === 0}
+        />
+      ))}
+    </div>
+  </section>
+)}

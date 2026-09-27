@@ -1,0 +1,70 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedPosts from '../components/FeaturedPosts.astro';
+import Categories from '../components/Categories.astro';
+import PostCard from '../components/PostCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+);
+
+const featuredPosts = allPosts.filter((p) => p.data.featured).slice(0, 2);
+const fallbackFeatured = featuredPosts.length > 0 ? featuredPosts : allPosts.slice(0, 2);
+const latestPosts = allPosts.slice(0, 6);
+
+const categoryMap = new Map<string, number>();
+allPosts.forEach((p) => categoryMap.set(p.data.category, (categoryMap.get(p.data.category) ?? 0) + 1));
+const categories = Array.from(categoryMap, ([name, count]) => ({ name, count }));
+---
+
+<MainLayout
+  title="Wonderweb Blog — Insight Web Development, Astro & SEO"
+  description="Blog resmi Wonderweb. Panduan praktis Astro, Tailwind, DaisyUI, SEO, dan strategi landing page untuk bisnis yang sedang bertumbuh."
+>
+  <Hero
+    title="Insight web development yang benar-benar bisa dipakai."
+    description="Wonderweb Blog membahas Astro, Tailwind, SEO, dan strategi frontend berdasarkan pengalaman langsung membangun landing page untuk bisnis yang bertumbuh."
+  />
+
+  <FeaturedPosts posts={fallbackFeatured} />
+
+  <Categories categories={categories} />
+
+  <section class="container-wonder py-10 sm:py-14">
+    <div class="mb-8 flex items-end justify-between">
+      <h2 class="text-2xl font-semibold text-onyx sm:text-3xl">Artikel Terbaru</h2>
+      <a href="/blog" class="link-underline text-sm font-semibold text-ocean">Lihat semua &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {latestPosts.map((post) => (
+        <PostCard
+          slug={post.slug}
+          title={post.data.title}
+          description={post.data.description}
+          featuredImage={post.data.featuredImage}
+          featuredImageAlt={post.data.featuredImageAlt}
+          category={post.data.category}
+          publishedDate={post.data.publishedDate}
+          readingTime={post.data.readingTime}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="container-wonder pb-16">
+    <div class="glass rounded-box flex flex-col items-center gap-4 border border-onyx/5 px-6 py-12 text-center sm:px-12">
+      <h2 class="max-w-xl text-2xl font-semibold text-onyx sm:text-3xl">
+        Butuh landing page yang benar-benar convert?
+      </h2>
+      <p class="max-w-lg text-sm text-onyx/60">
+        Wonderweb membangun landing page cepat, rapi, dan dioptimalkan untuk hasil — bukan sekadar tampil bagus.
+      </p>
+      <a href="https://wonderweb.id" class="btn btn-primary rounded-btn mt-2">Lihat Layanan Wonderweb</a>
+    </div>
+  </section>
+
+  <Newsletter />
+</MainLayout>

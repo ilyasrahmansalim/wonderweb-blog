@@ -1,0 +1,97 @@
+# Konfigurasi Sveltia CMS untuk Wonderweb Blog
+# Dokumentasi: https://github.com/sveltia/sveltia-cms
+
+backend:
+  name: github
+  repo: wonderweb/wonderweb-blog # ganti dengan repo GitHub kamu
+  branch: main
+
+# Aktifkan ini saat development lokal (npx sveltia-cms-proxy-server)
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+publish_mode: simple
+show_preview_links: true
+
+i18n:
+  structure: single_file
+  locales: [id]
+  default_locale: id
+
+collections:
+  - name: blog
+    label: "Artikel Blog"
+    label_singular: "Artikel"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    extension: md
+    sortable_fields: ["publishedDate", "title", "category"]
+    view_groups:
+      - label: "Kategori"
+        field: category
+    fields:
+      - { label: "Judul", name: "title", widget: "string", hint: "Judul artikel, jelas dan menarik untuk pembaca maupun AI." }
+      - { label: "Slug", name: "slug", widget: "string", required: false, hint: "Kosongkan agar dibuat otomatis dari judul." }
+      - { label: "Deskripsi", name: "description", widget: "text", hint: "Ringkasan 1-2 kalimat, tampil di kartu artikel & hasil pencarian." }
+
+      - { label: "Gambar Utama", name: "featuredImage", widget: "image", choose_url: true }
+      - { label: "Alt Text Gambar", name: "featuredImageAlt", widget: "string", required: false }
+
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Web Development"
+          - "Astro"
+          - "UI/UX"
+          - "Tailwind"
+          - "DaisyUI"
+          - "Branding"
+          - "SEO"
+          - "GEO"
+          - "CMS"
+          - "AI"
+          - "Business"
+          - "Landing Page"
+          - "Company Profile"
+          - "Website Tips"
+          - "Digital Marketing"
+
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - { label: "Penulis", name: "author", widget: "string", default: "Wonderweb Team" }
+      - { label: "Foto Penulis", name: "authorAvatar", widget: "image", required: false }
+
+      - { label: "Tanggal Publikasi", name: "publishedDate", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Tanggal Update", name: "updatedDate", widget: "datetime", format: "YYYY-MM-DD", required: false }
+      - { label: "Estimasi Waktu Baca (menit)", name: "readingTime", widget: "number", required: false, hint: "Kosongkan untuk dihitung otomatis." }
+
+      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Jadikan Artikel Pilihan", name: "featured", widget: "boolean", default: false }
+
+      # Field SEO dibiarkan flat (tidak nested) agar cocok dengan schema di src/content/config.ts
+      - { label: "SEO — Meta Title", name: "metaTitle", widget: "string", required: false }
+      - { label: "SEO — Meta Description", name: "metaDescription", widget: "text", required: false }
+      - { label: "SEO — Open Graph Title", name: "ogTitle", widget: "string", required: false }
+      - { label: "SEO — Open Graph Description", name: "ogDescription", widget: "text", required: false }
+      - { label: "SEO — Canonical URL", name: "canonicalUrl", widget: "string", required: false }
+
+      # Field AI / GEO — juga flat, membantu ChatGPT, Gemini, Claude, dan Perplexity meringkas artikel
+      - { label: "AI Summary", name: "aiSummary", widget: "text", required: false, hint: "Ringkasan padat 2-3 kalimat di awal artikel." }
+      - label: "Key Takeaways"
+        name: "keyTakeaways"
+        widget: "list"
+        required: false
+        field: { label: "Poin", name: "point", widget: "string" }
+      - label: "FAQ"
+        name: "faq"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Pertanyaan", name: "question", widget: "string" }
+          - { label: "Jawaban", name: "answer", widget: "text" }
+
+      - { label: "Konten", name: "body", widget: "markdown" }

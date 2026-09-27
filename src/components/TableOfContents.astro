@@ -1,0 +1,20 @@
+---
+export interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 0 && (
+  <details class="glass rounded-box sticky top-24 mb-8 border border-onyx/5 p-4 lg:open:block" open>
+    <summary class="cursor-pointer text-sm font-semibold text-onyx">Daftar Isi</summary>
+    <ul class="mt-3 space-y-2 text-sm">
+      {items.map((h) => (
+        <li class={h.depth === 3 ? 'ml-4' : ''}>
+          <a href={`#${h.slug}`} class="text-onyx/60 hover:text-ocean">{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </details>
+)}

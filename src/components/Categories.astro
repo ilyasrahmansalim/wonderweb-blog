@@ -1,0 +1,23 @@
+---
+export interface Props {
+  categories: { name: string; count: number }[];
+}
+const { categories } = Astro.props;
+---
+
+{categories.length > 0 && (
+  <section class="container-wonder py-10 sm:py-14">
+    <h2 class="mb-6 text-2xl font-semibold text-onyx sm:text-3xl">Jelajahi Kategori</h2>
+    <div class="flex flex-wrap gap-3">
+      {categories.map((cat) => (
+        <a
+          href={`/blog?category=${encodeURIComponent(cat.name)}`}
+          class="badge badge-lg gap-2 rounded-btn border border-onyx/10 bg-base-100 px-4 py-4 font-semibold text-onyx/80 transition hover:border-ocean hover:text-ocean"
+        >
+          {cat.name}
+          <span class="text-onyx/40">({cat.count})</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

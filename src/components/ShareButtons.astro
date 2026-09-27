@@ -1,0 +1,30 @@
+---
+export interface Props {
+  url: string;
+  title: string;
+}
+const { url, title } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+
+const networks = [
+  { name: 'X', href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}` },
+  { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+  { name: 'WhatsApp', href: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}` },
+  { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+];
+---
+
+<div class="flex flex-wrap items-center gap-2">
+  <span class="text-sm font-semibold text-onyx/50">Bagikan:</span>
+  {networks.map((net) => (
+    <a
+      href={net.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn-xs rounded-btn border border-onyx/10 bg-base-100 font-semibold text-onyx/70 hover:border-ocean hover:text-ocean"
+    >
+      {net.name}
+    </a>
+  ))}
+</div>

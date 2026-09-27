@@ -1,0 +1,55 @@
+---
+const navLinks = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Tentang', href: '/about' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="glass sticky top-0 z-50">
+  <div class="container-wonder navbar min-h-16 px-0">
+    <div class="navbar-start">
+      <a href="/" class="flex items-center gap-2 text-lg font-extrabold tracking-tight text-onyx">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-ocean text-sm text-ghost">W</span>
+        Wonderweb
+      </a>
+    </div>
+
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal gap-1 px-1 text-sm font-semibold">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class={`rounded-btn ${currentPath === link.href ? 'text-ocean' : 'text-onyx/70 hover:text-onyx'}`}
+              aria-current={currentPath === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="navbar-end gap-2">
+      <a href="/blog" class="btn btn-ghost btn-sm hidden sm:inline-flex" aria-label="Cari artikel">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </a>
+      <a href="https://wonderweb.id" class="btn btn-primary btn-sm rounded-btn">
+        Mulai Proyek
+      </a>
+
+      <div class="dropdown dropdown-end lg:hidden">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm" aria-label="Buka menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </div>
+        <ul tabindex="0" class="menu dropdown-content menu-sm z-[1] mt-3 w-48 rounded-box bg-base-100 p-2 shadow-lg">
+          {navLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
